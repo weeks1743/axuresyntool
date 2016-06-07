@@ -1,0 +1,82 @@
+﻿<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <link rel="stylesheet" href="css/msgBox.css">
+    <style>
+      		*{
+      			margin:0;
+      			padding:0;
+      		}
+      		body{
+      			width:400px;
+      			height:400px;
+      		}
+          li{
+            margin: 0px;
+            padding-left: 20px;
+            font-size: 16px;
+          }
+          div{
+            margin-top:10px;
+          }
+          span{
+            font-size: 14px;
+          }
+
+          #preferences {
+              position: absolute;
+              padding: 10px;
+              width: 16px;
+              height: 16px;
+              right: 0;
+              top: 0;
+              background: url(/images/setting.png) center center no-repeat;
+          }
+	</style>
+	  </head>
+	  <body>
+      <form name="form1">
+        <div style="border-bottom:1px solid gray;">
+          <h2 align="center">Axure需求管理同步工具</h2>
+          <a id="preferences" class="button" href="/preferences.html" target="bobobee_preferences" title="选项"></a>
+        </div>
+        <div id="requireList">
+          <ul id="requireList_ul">
+          </ul>
+        </div>
+        <div>
+          <div>
+            &nbsp;&nbsp;&nbsp;<textarea cols="60" rows="5" id="messageContent">....输入消息可以同步到云之家讨论组</textarea>
+          </div>
+        </div>
+        <div>
+          <span>请选择禅道中的产品：</span>
+          <select id="productList">
+          </select>
+        </div>
+        <div>
+          <span>请选择产品计划：</span>
+          <select id="planList">
+          </select>
+        </div>
+        <div>
+          <span>请选择要发布消息的群组:</span>
+          <select id="groupList">
+            <option>XX讨论组</option>
+          </select>
+        </div>
+        <div id="whoList">
+          <span>我要@谁</span>
+          <ul id="whoList_ul">
+          </ul>
+        </div>
+        <div align="center">
+            <input type="button" value="sendMessage" id="sendMessage"/>
+        </div>
+	  </body>
+    </form>
+    <script type="text/javascript" src="js/popup.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="js/msgBox.js"></script>
+	</html>

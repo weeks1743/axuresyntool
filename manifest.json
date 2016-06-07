@@ -1,0 +1,28 @@
+﻿{
+    "background":{"scripts":["js/jquery-1.12.4.min.js","js/background.js"]},
+    "name": "Axure需求管理同步工具",
+    "version": "1.0.0",
+    "manifest_version": 2,
+    "description": "Axure需求管理插件、支持同步需求到禅道系统，发送消息到云之家",
+    "icons": {
+        "48": "logo_avatar.png"
+    },
+    "browser_action": {
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+    },
+    "options_page":"preferences.html",
+    "content_scripts": [{
+         "matches": ["http://*/*","https://*/*"],
+         "js": ["js/jquery-1.12.4.min.js", "js/content.js"],
+         "run_at": "document_end"
+        },
+       {
+         "matches": ["http://yunzhijia.com/*"],
+         "js": ["js/saveGroup.js"],
+         "run_at": "document_end"
+       }],
+    "permissions": [ "contextMenus", "notifications", "storage", 
+        "tabs", "http://*/*", "https://*/*", "activeTab","\u003Call_urls>" ]
+
+}

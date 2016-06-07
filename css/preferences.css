@@ -1,0 +1,118 @@
+html {
+  background: #F7F5F5 url(/images/bg_pref.gif) repeat;
+}
+body {
+  font-family: "helvetica neue",arial,sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+a {
+  color: #221919;
+  text-decoration: none;
+  outline: none;
+}
+a:hover {
+  color: #9A0000;
+  text-decoration: underline;
+}
+
+img {
+  border: 0;
+}
+
+li {
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+#main {
+  width: 600px;
+  margin: 60px auto;
+}
+
+#main h2 {
+  padding: 0;
+  text-align: center;
+  line-height: 60px;
+  font-size: 28px;
+  text-shadow: 0 1px rgba(255,255,255,.9);
+  border-bottom: 1px solid #ededed;
+}
+
+.box {
+  position: relative;
+  margin-bottom: 25px;
+  padding-bottom: 60px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+
+.setting-units {
+  padding: 0 30px;
+  color: #8C7E7E;
+}
+
+.setting-unit {
+  position: relative;
+  border-bottom: 1px solid rgba(34,25,25,.1);
+  border-top: 1px solid rgba(255,255,255,.7);
+}
+
+.setting-unit .line {
+  line-height: 60px;
+  height: 60px;
+  color: #333;
+  font-size: 14px;
+}
+
+.setting-unit label.title {
+  display: inline-block;
+  width: 150px;
+  padding-right: 30px;
+  text-align: right;
+  font-size: 18px;
+}
+
+input[name=minWidth] {
+  height: 12px;
+}
+
+#jpeg_selector {
+  margin-left: 20px;
+}
+
+#shortcut_setting .holder {
+  display: none;
+  position: relative;
+  background: #fcfcfc;
+  padding-left: 180px;
+  border-top: 1px dashed rgba(34,25,25,.1);
+  overflow: hidden;
+}
+
+#shortcut_setting .holder .hotkey {
+  display: inline-block;
+  width: 350px;
+  line-height: 32px;
+  padding-left: 5px;
+  font-size: 14px;
+}
+
+#shortcut_setting .holder .hotkey label {
+  display: inline-block;
+  width: 50%;
+}
+
+#huaban_logo {
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  margin-left: -55px;
+}

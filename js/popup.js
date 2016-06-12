@@ -220,7 +220,7 @@ function sendMessageNew4YZJ(groupID,content,noticePeople) {
 
 function sendMessageNew4ZenTaoSyn(productID,planID,account,requireTitle,requireNumber,requDepict) {
 
-	myPostUrl = zentaoSynUrl+"/synStory?productID="+productID+"&planID="+planID+"&account="+account+"&requireTitle="+requireTitle+"应用权限控制&requireNumber="+requireNumber+"&requDepict="+requDepict+"";
+	myPostUrl = zentaoSynUrl+"synStory?productID="+productID+"&planID="+planID+"&account="+account+"&requireTitle="+requireTitle+"&requireNumber="+requireNumber+"&requDepict="+requDepict+"";
 
 	console.log(myPostUrl);
 
@@ -336,9 +336,9 @@ forceRefreshBtn.addEventListener('click', function() {
 	// 未输入消息时，或者不选择人时，不同步到云之家
 	if((co==messageContentStr || co.length==0) && noticePeople.length == 0){
 		myMsgBox('未输入消息或选择人，消息不会同步到云之家，只会同步到禅道系统中');
+	}else{
+		sendMessageNew4YZJ($('#groupList').val(),encodeURIComponent(chestr),noticePeople);
 	}
-
-    sendMessageNew4YZJ($('#groupList').val(),encodeURIComponent(chestr),noticePeople);
 
     for (i=0;i<objarray;i++)
     {
@@ -359,7 +359,7 @@ forceRefreshBtn.addEventListener('click', function() {
        	requDepict+="<br/>";
        	requDepict+=require_info_list[i];
 
-		sendMessageNew4ZenTaoSyn($("#productList").val(),$("#planList").val(),zentaoAccount,myRequire,requireNumber,encodeURIComponent(requDepict));
+		sendMessageNew4ZenTaoSyn($("#productList").val(),$("#planList").val(),zentaoAccount,encodeURIComponent(myRequire),encodeURIComponent(requireNumber),encodeURIComponent(requDepict));
       }
     }
 

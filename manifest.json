@@ -18,7 +18,7 @@
          "run_at": "document_end"
         },
        {
-         "matches": ["http://yunzhijia.com/*"],
+         "matches": ["http://yunzhijia.com/im/*"],
          "js": ["js/saveGroup.js"],
          "run_at": "document_end"
        }],

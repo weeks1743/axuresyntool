@@ -78,26 +78,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	if(typeof zentaoSynUrl === 'undefined' || typeof zentaoUrl === 'undefined' || typeof zentaoAccount === 'undefined'){
 		myMsgBox('未配置禅道服务参数，请点击选项按钮进行设置');
+		tagError = true;
 		return;
 	}
 
 	if(typeof zentaoAccount == 'undefined' || zentaoAccount.length == 0){
 		myMsgBox('未读取到禅道账号参数，请点击选项按钮进行设置');
+		tagError = true;
 		return;
 	}
 
 	if(typeof gggg == 'undefined' || gggg.length == 0){
 		myMsgBox('未读取到云之家参数，请登陆到云之家并点击记住我');
+		tagError = true;
 		return;
 	}
 
 	if(page_url ==''){
 		myMsgBox('Axure未配置当前页面配置地址，请检查');
-		return;	
+		tagError = true;
+		return;
 	}
 
-	if(require_list.length ==0){
+	if(typeof require_list == 'undefined' || require_list.length ==0){
 		myMsgBox('未抓取到需求列表，请检查Axure内是否使用需求卡片|或刷新页面进行');
+		tagError = true;
 		return;	
 	}
 

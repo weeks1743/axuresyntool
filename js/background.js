@@ -41,6 +41,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendRequest){
 		console.log(e.description);
 		console.log(e.number);
 		console.log(e.name);
+		// 异常全部置为空
+		require_list = [];
+		require_info_list = [];
+		page_url = '';
 	}
 
 	console.log("接收消息完毕.......");

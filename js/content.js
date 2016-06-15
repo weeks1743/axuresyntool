@@ -19,6 +19,13 @@ $(function(){
 			result.push(b[0].innerHTML);
 		}
 
+		// 当未获取到要得到的信息则，发送置空消息
+		// 构建发送给background.js的内容
+
+		if(typeof aDiv[0] == 'undefined'){
+			sendnullmsg();
+			return;
+		}
 
 		// 筛选内容： data-label="需求卡片-内容"  | 需求卡片-标题
 		var CDiv=getElementByAttr(list,'data-label','需求卡片-内容');
@@ -44,6 +51,11 @@ $(function(){
 		// 同上取，当前页面地址字段
 		var bDiv=getElementByAttr(list,'data-label','当前页面地址');
 
+		if(typeof bDiv[0] == 'undefined'){
+			sendnullmsg();
+			return;
+		}
+
 		console.log('bDiv:'+bDiv);
 
 		var result2 = '';
@@ -63,6 +75,17 @@ $(function(){
 
     });
 });
+
+function sendnullmsg(){
+	var nullmsg = {
+		page_url:'',
+		require_list:[],
+		require_info_list:[]
+	};
+
+	// 发送
+	chrome.runtime.sendMessage(nullmsg);
+}
 
 // 内容筛选|取标签
 function getElementByAttr(aElements,attr,value)

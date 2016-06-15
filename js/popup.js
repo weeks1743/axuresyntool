@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		return;
 	}
 
-	if(page_url ==''){
+	if(typeof page_url == 'undefined' || page_url ==''){
 		myMsgBox('Axure未配置当前页面配置地址，请检查');
 		tagError = true;
 		return;

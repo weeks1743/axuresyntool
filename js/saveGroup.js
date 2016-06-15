@@ -21,7 +21,7 @@
         'newGroups.push(item);',
         '}',
         '});',
-        'var temp = "\<div id=chromeData display=none></div>";',
+        'var temp = "\<div id=chromeData style=“display:none;” ></div>";',
         '$("body").append(temp);',
         '$("#chromeData").html(JSON.stringify(newGroups))',
         //'$("#chromeData").html("10086")',

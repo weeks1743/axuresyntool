@@ -338,9 +338,12 @@ forceRefreshBtn.addEventListener('click', function() {
 		return;
 	}
 
+	var firstSend = true;
+
 	// 未输入消息时，或者不选择人时，不同步到云之家
 	if((co==messageContentStr || co.length==0) && noticePeople.length == 0){
 		myMsgBox('未输入消息或选择人，消息不会同步到云之家，只会同步到禅道系统中');
+		firstSend = false;
 	}else{
 		sendMessageNew4YZJ($('#groupList').val(),encodeURIComponent(chestr),noticePeople);
 	}
@@ -366,6 +369,10 @@ forceRefreshBtn.addEventListener('click', function() {
 
 		sendMessageNew4ZenTaoSyn($("#productList").val(),$("#planList").val(),zentaoAccount,encodeURIComponent(myRequire),encodeURIComponent(requireNumber),encodeURIComponent(requDepict));
       }
+    }
+
+    if(firstSend){
+    	myMsgBox('发送成功!');
     }
 
 });

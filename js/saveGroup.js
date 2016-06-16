@@ -21,9 +21,9 @@
         'newGroups.push(item);',
         '}',
         '});',
-        'var temp = "\<div id=chromeData style=“display:none;” ></div>";',
+        'var temp = "\<input id=chromeData type=hidden />"\;',
         '$("body").append(temp);',
-        '$("#chromeData").html(JSON.stringify(newGroups))',
+        '$("#chromeData").val(JSON.stringify(newGroups))',
         //'$("#chromeData").html("10086")',
         '},',
         'error: function(err){console.log("test",err)},',
@@ -31,10 +31,12 @@
         '}',
         'saveGroup();',
         '}())'];
-
+    
+        
     $('body').append('<script>' + jsArr.join('') + '<\/script>');
+
     setTimeout(function() {
-        var content = $('#chromeData').html();
+        var content = $('#chromeData').val();
         chrome.runtime.sendMessage({"groups": content});
-    },6000);
+    },5000);
 }());

@@ -8,6 +8,6 @@
 # 如何安装
 下载release_crx目录下最新版本的axuresyntool.crx文件
 
-将crx文件拖动至chrome浏览器中安装使用
+浏览器中输入chrome://extensions/，将crx文件拖动至chrome浏览器中安装使用
 
 点击齿轮按钮进行设置必要参数：禅道同步服务地址、禅道地址、禅道账号

@@ -53,7 +53,7 @@ function getProduct(callback) {
             cd_product_plan_name = data.var_cd_product_plan_name;
 
             if(cd_product_id.length == 0){
-            	myMsgBox('获取禅道产品信息异常，请检查地址！');
+            	toastr.error('获取禅道产品信息异常，请检查地址！',"错误");
             	tagError=true;
             }
 
@@ -61,7 +61,7 @@ function getProduct(callback) {
         },
         error: function(err) {
             console.log(err.message);
-            myMsgBox('调用禅道同步服务异常');
+            toastr.error('调用禅道同步服务异常',"错误");
             tagError=true;
         }
     })
@@ -85,32 +85,39 @@ document.addEventListener('DOMContentLoaded', function () {
 	my_plan_id = chrome.extension.getBackgroundPage().my_plan_id;
 	my_groups_id = chrome.extension.getBackgroundPage().my_groups_id;
 
+	//error、info、warning、success
+	toastr.options.positionClass = 'toast-top-full-width';
+	toastr.options.extendedTimeOut = 0; //1000;
+	toastr.options.timeOut = 4000;
+	toastr.options.fadeOut = 250;
+	toastr.options.fadeIn = 250;
+
 	if(typeof zentaoSynUrl == 'undefined' || typeof zentaoUrl == 'undefined' || typeof zentaoAccount == 'undefined'){
-		myMsgBox('未配置禅道服务参数，请点击选项按钮进行设置');
+		toastr.error('未配置禅道服务参数，请点击选项按钮进行设置!',"错误")
 		tagError = true;
 		return;
 	}
 
 	if(typeof zentaoAccount == 'undefined' || zentaoAccount.length == 0){
-		myMsgBox('未读取到禅道账号参数，请点击选项按钮进行设置');
+		toastr.error('未读取到禅道账号参数，请点击选项按钮进行设置',"错误");
 		tagError = true;
 		return;
 	}
 
 	if(typeof gggg == 'undefined' || gggg.length == 0){
-		myMsgBox('未读取到云之家参数，请登陆到云之家并点击记住我');
+		toastr.error('未读取到云之家参数，请登陆到云之家并点击记住我',"错误");
 		tagError = true;
 		return;
 	}
 
 	if(typeof page_url == 'undefined' || page_url ==''){
-		myMsgBox('Axure未配置当前页面配置地址，请检查');
+		toastr.error('Axure未配置当前页面配置地址，请检查',"错误");
 		tagError = true;
 		return;
 	}
 
 	if(typeof require_list == 'undefined' || require_list.length ==0){
-		myMsgBox('未抓取到需求列表，请检查Axure内是否使用需求卡片|或刷新页面进行');
+		toastr.error('未抓取到需求列表，请检查Axure内是否使用需求卡片|或刷新页面进行',"错误");
 		tagError = true;
 		return;	
 	}
@@ -163,20 +170,22 @@ function initA(){
 	}
 
 	if(typeof my_product_id != 'undefined'){
-		selectd_product = my_product_id;
+		if(my_product_id<=cd_product_name.length){
+			selectd_product = my_product_id;
+			$("#productList").get(0).selectedIndex = selectd_product;
+		}
 	}
-
-	$("#productList").get(0).selectedIndex = selectd_product;
 
 	for(var i=0;i<cd_product_plan_id[selectd_product].length;i++){
 		plan.options[i]=new Option(cd_product_plan_name[selectd_product][i],cd_product_plan_id[selectd_product][i]);
 	}
 
 	if(typeof my_plan_id != 'undefined'){
-		selectd_plan = my_plan_id;
+		if(my_plan_id<=cd_product_plan_name[selectd_product].length){
+			selectd_plan = my_plan_id;
+			$("#planList").get(0).selectedIndex = selectd_plan;
+		}
 	}
-
-	$("#planList").get(0).selectedIndex = selectd_plan;
 	
 	// 绑定计划
 	product.onchange=function(){
@@ -200,10 +209,11 @@ function initB(){
 	}
 
 	if(typeof my_groups_id != 'undefined'){
-		selectd_groups = my_groups_id;
+		if(my_groups_id<=yzj_group_uid.length){
+			selectd_groups = my_groups_id;
+			$("#groupList").get(0).selectedIndex = selectd_groups;
+		}
 	}
-
-	$("#groupList").get(0).selectedIndex = selectd_groups;
 
 	// 初始组内成员
 	for(var j=0;j<yzj_group_uid[selectd_groups].length;j++){
@@ -251,7 +261,7 @@ function sendMessageNew4YZJ(groupID,content,noticePeople) {
         },
         error: function(error) {
         	console.log(error);
-            myMsgBox('云之家消息发送异常');
+            toastr.error('云之家消息发送异常',"错误");
         }
     });
 }
@@ -270,34 +280,17 @@ function sendMessageNew4ZenTaoSyn(productID,planID,account,requireTitle,requireN
         },
         error: function(error) {
         	console.log(error);
-            myMsgBox('调用禅道同步服务异常');
+            toastr.error('调用禅道同步服务异常',"错误");
             tagError=true;
         }
     });
-}
-
-function myMsgBox(alertContent){
-	var v = new msgBox({
-	    width: '200px',    //设置弹窗的宽度，不设置的话默认由弹窗内容决定
-	    minWidth: '100px', //设置弹窗的最小宽度，默认0
-	    maxWidth: '300px', //设置弹窗的最大宽度，默认100%
-	    height: '',       //设置弹窗的高度，不设置的话默认由弹窗内容决定
-	    title: '提示',  //设置弹窗边框的标题 默认为空
-	    body: '<div style="color:red;">'+alertContent+'</div>', //设置弹窗内容，可由html模板组成 默认为空
-	    btnLabel: ['确定'], //设置弹窗底部按钮标题,数组形式，个数最多两个 默认为空
-	    visible: true,    //设置弹窗初始化时是否显示，默认为true
-	    isClose: true,    //设置弹窗是否显示右上角的关闭功能，默认为true
-	    complete: function() {}, //设置弹窗初始化完成后运行的回调函数，默认为空函数
-	    firstCallback: function() {v.closeMsg()}, //设置弹窗底部按钮一回调函数，默认为空函数
-	    secondCallback: function() {} //设置弹窗底部按钮二回调函数，默认为关闭弹窗功能的函数
-	});
 }
 
 // 发送消息
 forceRefreshBtn.addEventListener('click', function() {
 
 	if(tagError){
-		myMsgBox('服务异常，请检查配置项是否正确');
+		toastr.error('服务异常，请检查配置项是否正确',"错误");
 		return;
 	}
 
@@ -305,7 +298,7 @@ forceRefreshBtn.addEventListener('click', function() {
     var objarray=str.length;
 
     if($('input:checkbox[name=require_check_name]:checked').length == 0){
-    	myMsgBox('至少要选择一个需求!');
+    	toastr.info('至少要选择一个需求!',"提示");
 		return;
     }
 
@@ -373,7 +366,7 @@ forceRefreshBtn.addEventListener('click', function() {
 	//console.log("noticePeople:"+noticePeople);
 
 	if($("#planList").val() == ''){
-		myMsgBox('未读取到需求所属计划，请检查');
+		toastr.info('未读取到需求所属计划，请检查',"提示");
 		return;
 	}
 
@@ -381,7 +374,7 @@ forceRefreshBtn.addEventListener('click', function() {
 
 	// 未输入消息时，或者不选择人时，不同步到云之家
 	if((co==messageContentStr || co.length==0) && noticePeople.length == 0){
-		myMsgBox('未输入消息或选择人，消息不会同步到云之家，只会同步到禅道系统中');
+		toastr.info('未输入消息或选择人，只会同步到禅道系统中',"提示");
 		firstSend = false;
 	}else{
 		sendMessageNew4YZJ($('#groupList').val(),encodeURIComponent(chestr),noticePeople);
@@ -426,7 +419,7 @@ forceRefreshBtn.addEventListener('click', function() {
 	chrome.runtime.sendMessage(newmsg);
 
     if(firstSend){
-    	myMsgBox('发送成功!');
+    	toastr.success('发送成功!',"提示");
     }
 
 });

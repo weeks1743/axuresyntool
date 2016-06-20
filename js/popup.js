@@ -85,10 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	my_plan_id = chrome.extension.getBackgroundPage().my_plan_id;
 	my_groups_id = chrome.extension.getBackgroundPage().my_groups_id;
 
-	console.log(my_product_id+"--");
-	console.log(my_plan_id+"==");
-	console.log(my_groups_id+"[[[");
-
 	if(typeof zentaoSynUrl == 'undefined' || typeof zentaoUrl == 'undefined' || typeof zentaoAccount == 'undefined'){
 		myMsgBox('未配置禅道服务参数，请点击选项按钮进行设置');
 		tagError = true;
@@ -251,7 +247,7 @@ function sendMessageNew4YZJ(groupID,content,noticePeople) {
         data:param,
         crossDomain: true,
         success:function(data){
-           console.log(data);
+           //console.log(data);
         },
         error: function(error) {
         	console.log(error);
@@ -264,13 +260,13 @@ function sendMessageNew4ZenTaoSyn(productID,planID,account,requireTitle,requireN
 
 	myPostUrl = zentaoSynUrl+"synStory?productID="+productID+"&planID="+planID+"&account="+account+"&requireTitle="+requireTitle+"&requireNumber="+requireNumber+"&requDepict="+requDepict+"";
 
-	console.log(myPostUrl);
+	//console.log(myPostUrl);
 
     $.ajax({
         method:'POST',
         url:myPostUrl,
         success:function(data){
-           console.log(data);
+           //console.log(data);
         },
         error: function(error) {
         	console.log(error);
@@ -424,7 +420,7 @@ forceRefreshBtn.addEventListener('click', function() {
 		my_groups_id:whoList_ulVal
 	};
 
-	console.log(newmsg)
+	//console.log(newmsg)
 
 	// 行为记录
 	chrome.runtime.sendMessage(newmsg);

@@ -56,7 +56,7 @@ $(function(){
 			return;
 		}
 
-		console.log('bDiv:'+bDiv);
+		//console.log('bDiv:'+bDiv);
 
 		var result2 = '';
 		

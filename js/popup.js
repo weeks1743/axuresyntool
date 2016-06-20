@@ -34,13 +34,18 @@ tagError = false;
 // 消息框提示语
 var messageContentStr = "....输入消息可以同步到云之家讨论组";
 
+// 用户历史行为记录ID
+var my_product_id = "";
+var my_plan_id = "";
+var my_groups_id = "";
+
 //得到产品信息
 function getProduct(callback) {
     $.ajax({
         type: 'GET',
         url: zentaoSynUrl+'getProductPlan',
         success: function(data) {
-        	console.log('data'+data)
+        	//console.log('data'+data)
         	data = JSON.parse(data);
             cd_product_id = data.var_cd_product_id;
             cd_product_name = data.var_cd_product_name;
@@ -76,7 +81,15 @@ document.addEventListener('DOMContentLoaded', function () {
 	zentaoUrl=chrome.extension.getBackgroundPage().zentaoUrl;
 	zentaoAccount=chrome.extension.getBackgroundPage().zentaoAccount;
 
-	if(typeof zentaoSynUrl === 'undefined' || typeof zentaoUrl === 'undefined' || typeof zentaoAccount === 'undefined'){
+	my_product_id = chrome.extension.getBackgroundPage().my_product_id;
+	my_plan_id = chrome.extension.getBackgroundPage().my_plan_id;
+	my_groups_id = chrome.extension.getBackgroundPage().my_groups_id;
+
+	console.log(my_product_id+"--");
+	console.log(my_plan_id+"==");
+	console.log(my_groups_id+"[[[");
+
+	if(typeof zentaoSynUrl == 'undefined' || typeof zentaoUrl == 'undefined' || typeof zentaoAccount == 'undefined'){
 		myMsgBox('未配置禅道服务参数，请点击选项按钮进行设置');
 		tagError = true;
 		return;
@@ -146,12 +159,28 @@ function initA(){
 	var product=document.form1.productList;
 	var plan=document.form1.planList;
 
+	var selectd_product = 0;
+	var selectd_plan= 0;
+
 	for(var i=0;i<cd_product_id.length;i++){
 		product.options[i]=new Option(cd_product_name[i],cd_product_id[i]);
 	}
-	for(var i=0;i<cd_product_plan_id.length;i++){
-		plan.options[i]=new Option(cd_product_plan_name[0][i],cd_product_plan_id[0][i]);
+
+	if(typeof my_product_id != 'undefined'){
+		selectd_product = my_product_id;
 	}
+
+	$("#productList").get(0).selectedIndex = selectd_product;
+
+	for(var i=0;i<cd_product_plan_id[selectd_product].length;i++){
+		plan.options[i]=new Option(cd_product_plan_name[selectd_product][i],cd_product_plan_id[selectd_product][i]);
+	}
+
+	if(typeof my_plan_id != 'undefined'){
+		selectd_plan = my_plan_id;
+	}
+
+	$("#planList").get(0).selectedIndex = selectd_plan;
 	
 	// 绑定计划
 	product.onchange=function(){
@@ -167,14 +196,22 @@ function initB(){
 	var group=document.form1.groupList;
 	var who=document.form1.whoList_ul;
 
+	var selectd_groups = 0;
+
 	// 初始所有群组
 	for(var i=0;i<yzj_group_gid.length;i++){
 		group.options[i]=new Option(yzj_group_gname[i],yzj_group_gid[i]);
 	}
 
+	if(typeof my_groups_id != 'undefined'){
+		selectd_groups = my_groups_id;
+	}
+
+	$("#groupList").get(0).selectedIndex = selectd_groups;
+
 	// 初始组内成员
-	for(var j=0;j<yzj_group_uid[0].length;j++){
-		$("#whoList_ul").append('<li><input type="checkbox" name="who_check_name" value="' + yzj_group_uid[0][j] + '">'+yzj_group_uname[0][j]+'</li>')
+	for(var j=0;j<yzj_group_uid[selectd_groups].length;j++){
+		$("#whoList_ul").append('<li><input type="checkbox" name="who_check_name" value="' + yzj_group_uid[selectd_groups][j] + '">'+yzj_group_uname[selectd_groups][j]+'</li>')
 	}
 	
 	group.onchange=function(){
@@ -271,7 +308,7 @@ forceRefreshBtn.addEventListener('click', function() {
     var str=document.getElementsByName("require_check_name");
     var objarray=str.length;
 
-    if(objarray == 0){
+    if($('input:checkbox[name=require_check_name]:checked').length == 0){
     	myMsgBox('至少要选择一个需求!');
 		return;
     }
@@ -376,6 +413,21 @@ forceRefreshBtn.addEventListener('click', function() {
 		sendMessageNew4ZenTaoSyn($("#productList").val(),$("#planList").val(),zentaoAccount,encodeURIComponent(myRequire),encodeURIComponent(requireNumber),encodeURIComponent(requDepict));
       }
     }
+
+    var productListVal = $("#productList").prop('selectedIndex');
+    var planListVal = $("#planList").prop('selectedIndex');
+    var whoList_ulVal = $("#groupList").prop('selectedIndex');
+
+    var newmsg = {
+		my_product_id:productListVal,
+		my_plan_id:planListVal,
+		my_groups_id:whoList_ulVal
+	};
+
+	console.log(newmsg)
+
+	// 行为记录
+	chrome.runtime.sendMessage(newmsg);
 
     if(firstSend){
     	myMsgBox('发送成功!');

@@ -117,9 +117,9 @@ document.addEventListener('DOMContentLoaded', function () {
 	//console.log(require_list);
 	//console.log(page_url);
 
-	// 需求列表拼接
+	// 需求列表拼接,改为默认不拼接
 	for(var i=0;i<require_list.length;i++) {
-		$("#requireList_ul").append('<li><input checked="checked" type="checkbox" value="'+require_list[i]+'" name="require_check_name">'+require_list[i]+'</li>')
+		$("#requireList_ul").append('<li><input type="checkbox" value="'+require_list[i]+'" name="require_check_name">'+require_list[i]+'</li>')
 	}
 
 	initB();
@@ -270,6 +270,12 @@ forceRefreshBtn.addEventListener('click', function() {
 
     var str=document.getElementsByName("require_check_name");
     var objarray=str.length;
+
+    if(objarray == 0){
+    	myMsgBox('至少要选择一个需求!');
+		return;
+    }
+
     var chestr="";
 
     chestr+="需求明细：";

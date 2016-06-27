@@ -11,6 +11,8 @@ $(function(){
 
 		//console.log('aDiv:'+aDiv);
 
+		scrollToCard(aDiv);
+
 		// 筛选后的标题数组
 		var result = [];
 
@@ -85,6 +87,40 @@ function sendnullmsg(){
 
 	// 发送
 	chrome.runtime.sendMessage(nullmsg);
+}
+
+// 页面地址跳转
+function scrollToCard (aDiv) {
+	 if(aDiv.length==0){
+	 	return;
+	 }
+
+	 var href = location.href;
+	 console.log(href);
+
+	 var tag = false;
+
+	 if(href.indexOf("reqnumber")>0){
+	 	var reqnumber = href.substring(href.lastIndexOf("reqnumber")+10);
+	 	for(var i=0;i<aDiv.length;i++) {
+			var b=aDiv[i].getElementsByTagName("span");			
+			for(var k=0;k<b.length;k++){
+				var spanHtml = b[k].innerHTML;
+				if(spanHtml.indexOf("[")==0 && spanHtml.indexOf("]")>0){
+				 	var htmlReqNumber = spanHtml.substring(spanHtml.indexOf("[")+1,spanHtml.indexOf("]"));
+				 	if(htmlReqNumber == reqnumber){
+				 		console.log('find this');
+				 		b[0].parentNode.scrollIntoView();
+				 		tag = true;
+				 		break;
+				 	}
+				 }
+			}
+			if(tag){
+				break;
+			}
+		}
+	 }
 }
 
 // 内容筛选|取标签

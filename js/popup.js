@@ -61,7 +61,7 @@ function getProduct(callback) {
         },
         error: function(err) {
             console.log(err.message);
-            toastr.error('调用禅道同步服务异常',"错误");
+            toastr.error('调用禅道同步服务异常，请重试!',"错误");
             tagError=true;
         }
     })
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	//error、info、warning、success
 	toastr.options.positionClass = 'toast-top-full-width';
 	toastr.options.extendedTimeOut = 0; //1000;
-	toastr.options.timeOut = 4000;
+	toastr.options.timeOut = 6000;
 	toastr.options.fadeOut = 250;
 	toastr.options.fadeIn = 250;
 
@@ -385,14 +385,22 @@ forceRefreshBtn.addEventListener('click', function() {
       if(str[i].checked == true)
       {
        	var myRequire = str[i].value;
+       	if(!(myRequire.indexOf("[")==0 && myRequire.indexOf("]")>0)){
+       		toastr.error('需求：'+myRequire+'不含编号，请检查',"提示");
+			return;
+       	}
        	var requireNumber = myRequire.substring(myRequire.indexOf("[")+1,myRequire.indexOf("]"));
        	var requDepict = "Axure原型地址：";
        	requDepict+="<br/>";
        	requDepict+="&nbsp;&nbsp;<a href='";
        	requDepict+=page_url;
+       	requDepict+="&reqnumber=";
+       	requDepict+=requireNumber;
        	requDepict+="' target='_blank'";
        	requDepict+=">";
        	requDepict+=page_url;
+       	requDepict+="&reqnumber=";
+       	requDepict+=requireNumber;
        	requDepict+="</a>";
        	requDepict+="<br/>";
        	requDepict+="需求描述：";

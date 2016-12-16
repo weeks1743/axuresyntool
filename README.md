@@ -12,3 +12,12 @@
 
 点击齿轮按钮进行设置必要参数：禅道同步服务地址、禅道地址、禅道账号
 
+# 需求模型理解
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/1.jpg)
+
+# 产品介绍
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/2.jpg)
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/3.jpg)
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/4.jpg)
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/5.jpg)
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/6.jpg)

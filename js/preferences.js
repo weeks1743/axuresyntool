@@ -10,20 +10,22 @@ function intAll () {
    arr["zentaoSynUrl"] = "zentaoSynUrl";
    arr["zentaoUrl"] = "zentaoUrl";
    arr["zentaoAccount"] = "zentaoAccount";
+   arr["zentaoVersion"] = "zentaoVersion";
 
    var zentaoSynUrl = $('#zentaoSynUrl');
    var zentaoUrl = $('#zentaoUrl');
    var zentaoAccount = $('#zentaoAccount');
+   var zentaoVersion = $('#zentaoVersion');
 
     chrome.storage.local.get(i, function(obj) {
         zentaoSynUrl.value = obj.zentaoSynUrl || '';
         zentaoUrl.value = obj.zentaoUrl || '';
         zentaoAccount.value = obj.zentaoAccount || '';
+        zentaoVersion.value = obj.zentaoVersion || '';
 
         //console.log(obj.groups)
         //console.log("groups",JSON.parse(obj.groups));
     });
-
 
    var myobj = {};
 

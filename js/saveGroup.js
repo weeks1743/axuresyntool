@@ -7,12 +7,11 @@
         'function saveGroup() {',
         'var data = {',
         'offset:0 ,',
-        'count: 10,',
+        'count: 40,',
         '_: new Date().getTime(),',
         '};',
         '$.ajax({',
         'type: "GET",',
-        'headers:{"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36"}',
         'url: "http://yunzhijia.com/im/web/updatelistGroup.do?offset=" + data.offset + "&count=" + data.count + "&_=" + data._,',
         'success: function(data){',
         'var groups = JSON.parse(data).list,',
@@ -32,9 +31,10 @@
         '}',
         'saveGroup();',
         '}())'];
-    
         
     $('body').append('<script>' + jsArr.join('') + '<\/script>');
+
+    console.log("saveGroup......");
 
     setTimeout(function() {
         var content = $('#chromeData').val();

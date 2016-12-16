@@ -23,6 +23,8 @@ zentaoSynUrl='';
 zentaoUrl='';
 // 禅道账号
 zentaoAccount='';
+// 禅道版本
+zentaoVersion='';
 // axure网页内的url字段
 page_url = '';
 //换行TAG
@@ -80,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	zentaoSynUrl=chrome.extension.getBackgroundPage().zentaoSynUrl;
 	zentaoUrl=chrome.extension.getBackgroundPage().zentaoUrl;
 	zentaoAccount=chrome.extension.getBackgroundPage().zentaoAccount;
+	zentaoVersion=chrome.extension.getBackgroundPage().zentaoVersion;
 
 	my_product_id = chrome.extension.getBackgroundPage().my_product_id;
 	my_plan_id = chrome.extension.getBackgroundPage().my_plan_id;
@@ -92,8 +95,14 @@ document.addEventListener('DOMContentLoaded', function () {
 	toastr.options.fadeOut = 250;
 	toastr.options.fadeIn = 250;
 
-	if(typeof zentaoSynUrl == 'undefined' || typeof zentaoUrl == 'undefined' || typeof zentaoAccount == 'undefined'){
+	if(typeof zentaoSynUrl == 'undefined' || typeof zentaoUrl == 'undefined' || typeof zentaoAccount == 'undefined' || typeof zentaoVersion == 'undefined'){
 		toastr.error('未配置禅道服务参数，请点击选项按钮进行设置!',"错误")
+		tagError = true;
+		return;
+	}
+
+	if(!(zentaoVersion=='6.x' || zentaoVersion=='8.x')){
+		toastr.error('禅道版本不合法，支持6.x或8.x!',"错误")
 		tagError = true;
 		return;
 	}
@@ -209,7 +218,7 @@ function initB(){
 	}
 
 	if(typeof my_groups_id != 'undefined'){
-		if(my_groups_id<=yzj_group_uid.length){
+		if(my_groups_id<yzj_group_uid.length){
 			selectd_groups = my_groups_id;
 			$("#groupList").get(0).selectedIndex = selectd_groups;
 		}
@@ -266,9 +275,9 @@ function sendMessageNew4YZJ(groupID,content,noticePeople) {
     });
 }
 
-function sendMessageNew4ZenTaoSyn(productID,planID,account,requireTitle,requireNumber,requDepict) {
+function sendMessageNew4ZenTaoSyn(productID,planID,version,account,requireTitle,requireNumber,requDepict) {
 
-	myPostUrl = zentaoSynUrl+"synStory?productID="+productID+"&planID="+planID+"&account="+account+"&requireTitle="+requireTitle+"&requireNumber="+requireNumber+"&requDepict="+requDepict+"";
+	myPostUrl = zentaoSynUrl+"synStory?productID="+productID+"&planID="+planID+"&version="+version+"&account="+account+"&requireTitle="+requireTitle+"&requireNumber="+requireNumber+"&requDepict="+requDepict+"";
 
 	//console.log(myPostUrl);
 
@@ -332,7 +341,13 @@ forceRefreshBtn.addEventListener('click', function() {
     var pid = $("#productList").val();
 
     chestr+="   ";
-	chestr+=zentaoUrl+"product-browse-"+pid+".html";
+
+    if(zentaoVersion == '6.x'){  //8.x禅道地址
+    	chestr+=zentaoUrl+"index.php?m=product&f=browse&productID="+pid;
+    }else if(zentaoVersion == '8.x'){  //6.x禅道地址
+    	chestr+=zentaoUrl+"product-browse-"+pid+".html";
+    }
+
 	chestr+=brTAG;
 
     //console.log(chestr);
@@ -407,7 +422,7 @@ forceRefreshBtn.addEventListener('click', function() {
        	requDepict+="<br/>";
        	requDepict+=require_info_list[i];
 
-		sendMessageNew4ZenTaoSyn($("#productList").val(),$("#planList").val(),zentaoAccount,encodeURIComponent(myRequire),encodeURIComponent(requireNumber),encodeURIComponent(requDepict));
+		sendMessageNew4ZenTaoSyn($("#productList").val(),$("#planList").val(),zentaoVersion,zentaoAccount,encodeURIComponent(myRequire),encodeURIComponent(requireNumber),encodeURIComponent(requDepict));
       }
     }
 

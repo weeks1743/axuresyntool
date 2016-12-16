@@ -22,6 +22,8 @@ var zentaoSynUrl='';
 var zentaoUrl='';
 // 禅道账号
 var zentaoAccount='';
+// 禅道版本
+var zentaoVersion = '';
 
 // 用户历史行为记录ID
 var my_product_id='';
@@ -91,6 +93,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendRequest){
 
 	chrome.storage.local.get('zentaoAccount', function(obj){
 		zentaoAccount = obj.zentaoAccount;
+	})
+
+	chrome.storage.local.get('zentaoVersion', function(obj){
+		zentaoVersion = obj.zentaoVersion;
 	})
 
 	chrome.storage.local.get('my_product_id', function(obj){

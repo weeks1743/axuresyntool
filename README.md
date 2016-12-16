@@ -16,8 +16,8 @@
 ![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/1.jpg)
 
 # 产品介绍
-![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/2.jpg)
-![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/3.jpg)
-![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/4.jpg)
-![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/5.jpg)
-![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/6.jpg)
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/2.png)
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/3.png)
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/4.png)
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/5.png)
+![image](https://github.com/weeks1743/axuresyntool/blob/master/docs/6.png)

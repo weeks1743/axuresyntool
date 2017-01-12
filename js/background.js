@@ -28,6 +28,7 @@ var zentaoVersion = '';
 // 用户历史行为记录ID
 var my_product_id='';
 var my_plan_id='';
+var my_module_id='';
 var my_groups_id='';
 
 // 监听事件
@@ -60,6 +61,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendRequest){
 
 		if(typeof request.my_plan_id != 'undefined' ){
 			chrome.storage.local.set({"my_plan_id": request.my_plan_id});
+		}
+
+		if(typeof request.my_module_id != 'undefined' ){
+			chrome.storage.local.set({"my_module_id": request.my_module_id});
 		}
 
 		if(typeof request.my_groups_id != 'undefined' ){
@@ -105,6 +110,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendRequest){
 
 	chrome.storage.local.get('my_plan_id', function(obj){
 		my_plan_id = obj.my_plan_id;
+	})
+
+	chrome.storage.local.get('my_module_id', function(obj){
+		my_module_id = obj.my_module_id;
 	})
 
 	chrome.storage.local.get('my_groups_id', function(obj){

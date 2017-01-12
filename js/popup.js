@@ -14,6 +14,10 @@ cd_product_name=[];
 cd_product_plan_id=[];
 cd_product_plan_name=[];
 
+// 模块ID、名称
+cd_product_module_id=[];
+cd_product_module_name=[];
+
 // 需求描述
 require_info_list = [];
 
@@ -39,13 +43,14 @@ var messageContentStr = "....输入消息可以同步到云之家讨论组";
 // 用户历史行为记录ID
 var my_product_id = "";
 var my_plan_id = "";
+var my_module_id = "";
 var my_groups_id = "";
 
 //得到产品信息
 function getProduct(callback) {
     $.ajax({
         type: 'GET',
-        url: zentaoSynUrl+'getProductPlan',
+        url: zentaoSynUrl+'getProductPlan?version='+zentaoVersion,
         success: function(data) {
         	//console.log('data'+data)
         	data = JSON.parse(data);
@@ -53,6 +58,8 @@ function getProduct(callback) {
             cd_product_name = data.var_cd_product_name;
             cd_product_plan_id = data.var_cd_product_plan_id;
             cd_product_plan_name = data.var_cd_product_plan_name;
+            cd_product_module_id = data.var_cd_product_module_id;
+			cd_product_module_name = data.var_cd_product_module_name;
 
             if(cd_product_id.length == 0){
             	toastr.error('获取禅道产品信息异常，请检查地址！',"错误");
@@ -86,7 +93,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	my_product_id = chrome.extension.getBackgroundPage().my_product_id;
 	my_plan_id = chrome.extension.getBackgroundPage().my_plan_id;
+	my_module_id = chrome.extension.getBackgroundPage().my_module_id;
 	my_groups_id = chrome.extension.getBackgroundPage().my_groups_id;
+
+	// console.log(my_product_id+"my_product_id");
+	// console.log(my_plan_id+"my_plan_id");
+	// console.log(my_module_id+"my_module_id");
+	// console.log(my_groups_id+"my_groups_id");
 
 	//error、info、warning、success
 	toastr.options.positionClass = 'toast-top-full-width';
@@ -170,14 +183,18 @@ function initC(){
 function initA(){
 	var product=document.form1.productList;
 	var plan=document.form1.planList;
+	var module=document.form1.moduleList;
 
 	var selectd_product = 0;
 	var selectd_plan= 0;
+	var selectd_module= 0;
 
+	// 初始化产品
 	for(var i=0;i<cd_product_id.length;i++){
 		product.options[i]=new Option(cd_product_name[i],cd_product_id[i]);
 	}
 
+	// 选中默认产品
 	if(typeof my_product_id != 'undefined'){
 		if(my_product_id<=cd_product_name.length){
 			selectd_product = my_product_id;
@@ -185,14 +202,29 @@ function initA(){
 		}
 	}
 
+	// 初始化计划
 	for(var i=0;i<cd_product_plan_id[selectd_product].length;i++){
 		plan.options[i]=new Option(cd_product_plan_name[selectd_product][i],cd_product_plan_id[selectd_product][i]);
 	}
 
+	// 初始化模块
+	for(var i=0;i<cd_product_module_id[selectd_product].length;i++){
+		module.options[i]=new Option(cd_product_module_name[selectd_product][i],cd_product_module_id[selectd_product][i]);
+	}
+
+	// 选中默认计划
 	if(typeof my_plan_id != 'undefined'){
 		if(my_plan_id<=cd_product_plan_name[selectd_product].length){
 			selectd_plan = my_plan_id;
 			$("#planList").get(0).selectedIndex = selectd_plan;
+		}
+	}
+
+	// 选中默认模块
+	if(typeof my_module_id != 'undefined'){
+		if(my_module_id<=cd_product_module_name[selectd_product].length){
+			selectd_module = my_module_id;
+			$("#moduleList").get(0).selectedIndex = selectd_module;
 		}
 	}
 	
@@ -201,6 +233,10 @@ function initA(){
 		plan.length=0;
 		for(var i=0;i<cd_product_plan_id[this.selectedIndex].length;i++){
 			plan.options[i]=new Option(cd_product_plan_name[this.selectedIndex][i],cd_product_plan_id[this.selectedIndex][i]);
+		}
+		module.length=0;
+		for(var i=0;i<cd_product_plan_id[this.selectedIndex].length;i++){
+			module.options[i]=new Option(cd_product_module_name[this.selectedIndex][i],cd_product_module_id[this.selectedIndex][i]);
 		}
 	};
 }
@@ -275,9 +311,9 @@ function sendMessageNew4YZJ(groupID,content,noticePeople) {
     });
 }
 
-function sendMessageNew4ZenTaoSyn(productID,planID,version,account,requireTitle,requireNumber,requDepict) {
+function sendMessageNew4ZenTaoSyn(productID,planID,moduleID,version,account,requireTitle,requireNumber,requDepict) {
 
-	myPostUrl = zentaoSynUrl+"synStory?productID="+productID+"&planID="+planID+"&version="+version+"&account="+account+"&requireTitle="+requireTitle+"&requireNumber="+requireNumber+"&requDepict="+requDepict+"";
+	myPostUrl = zentaoSynUrl+"synStory?productID="+productID+"&planID="+planID+"&moduleID="+moduleID+"&version="+version+"&account="+account+"&requireTitle="+requireTitle+"&requireNumber="+requireNumber+"&requDepict="+requDepict+"";
 
 	//console.log(myPostUrl);
 
@@ -422,17 +458,19 @@ forceRefreshBtn.addEventListener('click', function() {
        	requDepict+="<br/>";
        	requDepict+=require_info_list[i];
 
-		sendMessageNew4ZenTaoSyn($("#productList").val(),$("#planList").val(),zentaoVersion,zentaoAccount,encodeURIComponent(myRequire),encodeURIComponent(requireNumber),encodeURIComponent(requDepict));
+		sendMessageNew4ZenTaoSyn($("#productList").val(),$("#planList").val(),$("#moduleList").val(),zentaoVersion,zentaoAccount,encodeURIComponent(myRequire),encodeURIComponent(requireNumber),encodeURIComponent(requDepict));
       }
     }
 
     var productListVal = $("#productList").prop('selectedIndex');
     var planListVal = $("#planList").prop('selectedIndex');
+    var moduleListVal = $("#moduleList").prop('selectedIndex');
     var whoList_ulVal = $("#groupList").prop('selectedIndex');
 
     var newmsg = {
 		my_product_id:productListVal,
 		my_plan_id:planListVal,
+		my_module_id:moduleListVal,
 		my_groups_id:whoList_ulVal
 	};
 
